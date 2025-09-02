@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reserva de Horario</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    /* Ocultar por defecto */
+    #plataformaVirtual {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Formulario de Reserva</h2>
+  <form id="formReserva">
+    <!-- Nombre -->
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <!-- Curso -->
+    <label for="curso">Curso:</label>
+    <select id="curso" name="curso" required>
+      <option value="" disabled selected>Selecciona un curso</option>
+      <option value="Precálculo">Precálculo</option>
+      <option value="Cálculo">Cálculo</option>
+      <option value="Matemáticas para Sociales">Matemáticas para Sociales</option>
+    </select>
+
+    <!-- Correo -->
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" id="correo" name="reply_to" required>
+
+    <!-- Teléfono -->
+    <label for="telefono">Teléfono (WhatsApp):</label>
+    <input type="tel" id="telefono" name="telefono" required>
+
+    <!-- Modalidad -->
+    <label for="modalidad">Modalidad:</label>
+    <select id="modalidad" name="modalidad" required>
+      <option value="" disabled selected>Selecciona modalidad</option>
+      <option value="Presencial">Presencial</option>
+      <option value="Virtual">Virtual</option>
+    </select>
+
+    <!-- Plataforma (solo si es virtual) -->
+    <div id="plataformaVirtual">
+      <label for="plataforma">Plataforma:</label>
+      <select id="plataforma" name="plataforma">
+        <option value="" disabled selected>Selecciona una plataforma</option>
+        <option value="Zoom">Zoom</option>
+        <option value="Discord">Discord</option>
+        <option value="Google Meet">Google Meet</option>
+      </select>
+    </div>
+
+    <!-- Cantidad de horas -->
+    <label for="cantidadHoras">Cantidad de horas a estudiar:</label>
+    <select id="cantidadHoras" name="cantidadHoras" required>
+      <option value="" disabled selected>Selecciona cantidad de horas</option>
+      <option value="1">1 hora</option>
+      <option value="2">2 horas</option>
+      <option value="3">3 horas</option>
+    </select>
+
+    <!-- Día -->
+    <label for="dia">Día:</label>
+    <select id="dia" name="dia" required>
+      <option value="" disabled selected>Selecciona un día</option>
+    </select>
+
+    <!-- Hora -->
+    <label for="hora">Horario:</label>
+    <select id="hora" name="hora" required>
+      <option value="" disabled selected>Selecciona una hora</option>
+    </select>
+
+    <!-- Botón -->
+    <button type="submit">Confirmar Reserva</button>
+  </form>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="horario.js"></script>
+  <script>
+    // Inicializar horarios dinámicos
+    inicializarHorarios('dia', 'hora', 'cantidadHoras');
+
+    // Mostrar/ocultar plataforma según modalidad
+    document.getElementById("modalidad").addEventListener("change", function() {
+      const plataformaDiv = document.getElementById("plataformaVirtual");
+      if (this.value === "Virtual") {
+        plataformaDiv.style.display = "block";
+        document.getElementById("plataforma").setAttribute("required", "true");
+      } else {
+        plataformaDiv.style.display = "none";
+        document.getElementById("plataforma").removeAttribute("required");
+      }
+    });
+
+    // Configuración EmailJS
+    (function() {
+      emailjs.init("vr65LudGmqM4lx7Bb"); // tu USER ID
+    })();
+
+    // Envío de formulario
+    document.getElementById('formReserva').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const form = this;
+
+      // Correo al admin
+      emailjs.sendForm('service_idxbf5h', 'template_9212lnw', form)
+        // Correo al alumno
+        .then(() => emailjs.sendForm('service_idxbf5h', 'template_vq0rs6j', form))
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Reserva enviada!',
+            text: 'Tu reserva ha sido registrada. Te confirmaremos por correo o WhatsApp.',
+            confirmButtonText: 'Entendido'
+          });
+          form.reset();
+          document.getElementById("plataformaVirtual").style.display = "none"; // ocultar plataforma al resetear
+        })
+        .catch((error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Hubo un problema al enviar tu reserva. Intenta nuevamente.'
+          });
+          console.error("Error EmailJS:", error);
+        });
+    });
+  </script>
+</body>
+</html>
+

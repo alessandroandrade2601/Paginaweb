@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesiones Abiertas – ESAN</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <img src="images/logo.png" alt="Logo ESAN" class="logo">
+    <h1>Sesiones Abiertas – ESAN</h1>
+    <nav class="nav">
+      <ul>
+        <li><a href="#cursos" class="nav-link">Cursos</a></li>
+        <li><a href="#materiales" class="nav-link">Materiales</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" style="background-image: url('images/esan.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center;">
+    <div class="hero-text">
+      <h2>Aprende, crece y conéctate</h2>
+      <p>Descubre nuestros cursos gratuitos para alumnos de pregrado y DPA</p>
+      <a href="#cursos" class="btn">Ver Cursos</a>
+    </div>
+  </section>
+
+  <!-- Cursos -->
+  <section id="cursos" class="cursos">
+    <h2>Nuestros Cursos</h2>
+    <div class="curso-lista">
+      <div class="curso card">
+        <img src="images/preca.jpg" alt="Curso de Precálculo">
+        <h3>Precálculo</h3>
+        <p>Modalidad: Online | Duración: 1-3 horas</p>
+        <a href="formulario.html?curso=Precálculo" class="btn-small">Reservar Clase</a>
+      </div>
+      <div class="curso card">
+        <img src="images/cal.jpg" alt="Curso de Cálculo">
+        <h3>Cálculo</h3>
+        <p>Modalidad: Presencial | Duración: 1-3 horas</p>
+        <a href="formulario.html?curso=Cálculo" class="btn-small">Reservar Clase</a>
+      </div>
+      <div class="curso card">
+        <img src="images/matesociales.jpg" alt="Matemáticas para Sociales">
+        <h3>Matemáticas para Sociales</h3>
+        <p>Modalidad: Online | Duración: 1-3 horas</p>
+        <a href="formulario.html?curso=Matemáticas%20para%20Sociales" class="btn-small">Reservar Clase</a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Materiales -->
+  <section id="materiales" class="materiales">
+    <h2>Material de Apoyo</h2>
+    <p>Descarga material previo y recibe un resumen al correo.</p>
+    <button class="btn" onclick="descargarMaterial()">Descargar PDF</button>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 ESAN | Sesiones Abiertas</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
